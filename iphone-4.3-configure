@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# SDK setup
+export SDKVER="4.3"
+export DEVROOT="/Developer/Platforms/iPhoneOS.platform/Developer"
+export SDKROOT="$DEVROOT/SDKs/iPhoneOS$SDKVER.sdk"
+
+export PREFIX="/opt/iphone-$SDKVER"
+
+# Sanity checks
+if [ ! \( -d "$DEVROOT" \) ] ; then
+   echo "The iPhone SDK could not be found. Folder \"$DEVROOT\" does not exist."
+   exit 1
+fi
+
+if [ ! \( -d "$SDKROOT" \) ] ; then
+   echo "The iPhone SDK could not be found. Folder \"$SDKROOT\" does not exist."
+   exit 1
+fi
+
+if [ ! \( -x "./configure" \) ] ; then
+    echo "This script must be run in the folder containing the \"configure\" script."
+    exit 1
+fi
+
+# Binaries
+export CPP="$DEVROOT/usr/bin/arm-apple-darwin10-llvm-gcc-4.2 -E"
+export CC="$DEVROOT/usr/bin/arm-apple-darwin10-llvm-gcc-4.2"
+export CXX="$DEVROOT/usr/bin/arm-apple-darwin10-llvm-g++-4.2"
+export LD="$DEVROOT/usr/bin/ld"
+
+export PKG_CONFIG_PATH="$SDKROOT/usr/lib/pkgconfig":"$PREFIX/lib/pkgconfig"
+
+# Flags
+export CPPFLAGS="-isysroot $SDKROOT -I$PREFIX/include"
+export CFLAGS="$CPPFLAGS -std=c99 -pipe -no-cpp-precomp"
+export LDFLAGS="-isysroot $SDKROOT -L$PREFIX/lib"
+
+# The device's architecture
+export ARCH="armv6-apple-darwin10"
+
+# Run configure 
+./configure \
+	--prefix="$PREFIX" \
+	--host="$ARCH" \
+	--enable-static \
+	--disable-shared $@
