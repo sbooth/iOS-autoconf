@@ -34,6 +34,7 @@ export PKG_CONFIG_PATH="$SDKROOT/usr/lib/pkgconfig":"$PREFIX/lib/pkgconfig"
 # Flags
 export CPPFLAGS="-isysroot $SDKROOT -I$PREFIX/include"
 export CFLAGS="$CPPFLAGS -std=c99 -pipe -no-cpp-precomp"
+export CXXFLAGS="$CPPFLAGS -pipe -no-cpp-precomp"
 export LDFLAGS="-isysroot $SDKROOT -L$PREFIX/lib"
 
 # The simulator's architecture
