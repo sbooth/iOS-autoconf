@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# The device's architecture
+export ARCH="armv6-apple-darwin10"
+
 # SDK setup
 export SDKVER="4.3"
 export DEVROOT="/Developer/Platforms/iPhoneOS.platform/Developer"
@@ -34,10 +37,8 @@ export PKG_CONFIG_PATH="$SDKROOT/usr/lib/pkgconfig":"$PREFIX/lib/pkgconfig"
 # Flags
 export CPPFLAGS="-isysroot $SDKROOT -I$PREFIX/include"
 export CFLAGS="$CPPFLAGS -std=c99 -pipe -no-cpp-precomp"
+export CXXFLAGS="$CPPFLAGS -I$SDKROOT/usr/include/c++/4.2.1/$ARCH -pipe -no-cpp-precomp"
 export LDFLAGS="-isysroot $SDKROOT -L$PREFIX/lib"
-
-# The device's architecture
-export ARCH="armv6-apple-darwin10"
 
 # Run configure 
 ./configure \
