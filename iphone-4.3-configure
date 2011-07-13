@@ -8,7 +8,7 @@ export SDKVER="4.3"
 export DEVROOT="/Developer/Platforms/iPhoneOS.platform/Developer"
 export SDKROOT="$DEVROOT/SDKs/iPhoneOS$SDKVER.sdk"
 
-export PREFIX="/opt/iphone-$SDKVER"
+export PREFIX="/opt/iphone-$SDKVER-armv6"
 
 # Sanity checks
 if [ ! \( -d "$DEVROOT" \) ] ; then
@@ -27,18 +27,18 @@ if [ ! \( -x "./configure" \) ] ; then
 fi
 
 # Binaries
-export CPP="$DEVROOT/usr/bin/arm-apple-darwin10-llvm-gcc-4.2 -E"
-export CC="$DEVROOT/usr/bin/arm-apple-darwin10-llvm-gcc-4.2"
-export CXX="$DEVROOT/usr/bin/arm-apple-darwin10-llvm-g++-4.2"
+export CPP="$DEVROOT/usr/bin/gcc -E"
+export CC="$DEVROOT/usr/bin/gcc"
+export CXX="$DEVROOT/usr/bin/g++"
 export LD="$DEVROOT/usr/bin/ld"
 
 export PKG_CONFIG_PATH="$SDKROOT/usr/lib/pkgconfig":"$PREFIX/lib/pkgconfig"
 
 # Flags
-export CPPFLAGS="-isysroot $SDKROOT -I$PREFIX/include"
+export CPPFLAGS="-arch armv6 -isysroot $SDKROOT -I$PREFIX/include"
 export CFLAGS="$CPPFLAGS -std=c99 -pipe -no-cpp-precomp"
 export CXXFLAGS="$CPPFLAGS -I$SDKROOT/usr/include/c++/4.2.1/$ARCH -pipe -no-cpp-precomp"
-export LDFLAGS="-isysroot $SDKROOT -L$PREFIX/lib"
+export LDFLAGS="-arch armv6 -isysroot $SDKROOT -L$PREFIX/lib"
 
 # Run configure 
 ./configure \
